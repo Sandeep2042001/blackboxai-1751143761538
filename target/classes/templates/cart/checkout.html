@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Checkout - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <!-- Breadcrumb -->
+        <nav class="bg-gray-100 py-3">
+            <div class="container mx-auto px-4">
+                <ol class="flex items-center space-x-2 text-sm">
+                    <li><a href="/" class="text-gray-600 hover:text-primary">Home</a></li>
+                    <li><span class="text-gray-400">/</span></li>
+                    <li><a href="/cart" class="text-gray-600 hover:text-primary">Cart</a></li>
+                    <li><span class="text-gray-400">/</span></li>
+                    <li class="text-primary">Checkout</li>
+                </ol>
+            </div>
+        </nav>
+
+        <!-- Checkout Content -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl font-bold mb-8">Checkout</h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Shipping & Payment Form -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white border rounded-lg p-6 mb-6">
+                            <h2 class="text-xl font-semibold mb-6">Shipping Address</h2>
+                            
+                            <!-- Address Form -->
+                            <form id="shippingForm" class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">First Name</label>
+                                        <input type="text" th:value="${user.firstName}" required
+                                               class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Last Name</label>
+                                        <input type="text" th:value="${user.lastName}" required
+                                               class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Address Line 1</label>
+                                    <input type="text" th:value="${user.shippingAddressLine1}" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Address Line 2</label>
+                                    <input type="text" th:value="${user.shippingAddressLine2}"
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">City</label>
+                                        <input type="text" th:value="${user.shippingCity}" required
+                                               class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">State</label>
+                                        <input type="text" th:value="${user.shippingState}" required
+                                               class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Postal Code</label>
+                                        <input type="text" th:value="${user.shippingPostalCode}" required
+                                               class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Country</label>
+                                        <input type="text" value="India" readonly
+                                               class="w-full border rounded px-3 py-2 bg-gray-50">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Phone Number</label>
+                                    <input type="tel" th:value="${user.phoneNumber}" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="bg-white border rounded-lg p-6">
+                            <h2 class="text-xl font-semibold mb-6">Payment Method</h2>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <input type="radio" id="cod" name="paymentMethod" value="CASH_ON_DELIVERY" checked
+                                           class="h-4 w-4 text-primary focus:ring-primary">
+                                    <label for="cod" class="ml-2">Cash on Delivery</label>
+                                </div>
+                                
+                                <div class="flex items-center opacity-50 cursor-not-allowed">
+                                    <input type="radio" id="online" name="paymentMethod" value="ONLINE" disabled
+                                           class="h-4 w-4 text-primary focus:ring-primary">
+                                    <label for="online" class="ml-2">Online Payment (Coming Soon)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white border rounded-lg p-6 sticky top-4">
+                            <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+                            
+                            <!-- Cart Items -->
+                            <div class="space-y-4 mb-6">
+                                <div th:each="item : ${cartItems}" class="flex items-center">
+                                    <img th:src="${item.product.imageUrl}" th:alt="${item.product.name}" 
+                                         class="w-16 h-16 object-cover rounded">
+                                    <div class="ml-4 flex-grow">
+                                        <h3 class="text-sm font-medium" th:text="${item.product.name}">Product Name</h3>
+                                        <p class="text-sm text-gray-600" th:text="'Qty: ' + ${item.quantity}">Qty: 1</p>
+                                        <p class="text-sm font-semibold" th:text="'₹' + ${item.total}">₹999</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Price Details -->
+                            <div class="border-t pt-4 space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Subtotal</span>
+                                    <span class="font-semibold" th:text="'₹' + ${subtotal}">₹999</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Shipping</span>
+                                    <span class="font-semibold" th:text="${shippingCost > 0 ? '₹' + shippingCost : 'Free'}">Free</span>
+                                </div>
+                                <div class="flex justify-between" th:if="${discount > 0}">
+                                    <span>Discount</span>
+                                    <span class="font-semibold text-green-600" th:text="'-₹' + ${discount}">-₹100</span>
+                                </div>
+                                <div class="flex justify-between border-t pt-2 text-lg font-bold">
+                                    <span>Total</span>
+                                    <span th:text="'₹' + ${total}">₹999</span>
+                                </div>
+                            </div>
+
+                            <!-- Place Order Button -->
+                            <button onclick="placeOrder()" 
+                                    class="w-full bg-primary text-white text-center py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300 mt-6">
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script th:inline="javascript">
+            function placeOrder() {
+                const form = document.getElementById('shippingForm');
+                const formData = new FormData(form);
+                const shippingAddress = [
+                    formData.get('addressLine1'),
+                    formData.get('addressLine2'),
+                    formData.get('city'),
+                    formData.get('state'),
+                    formData.get('postalCode')
+                ].filter(Boolean).join(', ');
+
+                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+                fetch('/cart/place-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `shippingAddress=${encodeURIComponent(shippingAddress)}&paymentMethod=${paymentMethod}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.orderId) {
+                        window.location.href = `/order/${data.orderNumber}`;
+                    } else {
+                        alert(data.message || 'Error placing order');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error placing order');
+                });
+            }
+        </script>
+    </th:block>
+</body>
+</html>
