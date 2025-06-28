@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Register - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <!-- Registration Section -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+                    <!-- Header -->
+                    <div class="px-6 py-8 text-center">
+                        <h1 class="text-2xl font-bold mb-2">Create an Account</h1>
+                        <p class="text-gray-600">Join Bling Bag to start shopping</p>
+                    </div>
+
+                    <!-- Alert Messages -->
+                    <div th:if="${errorMessage}" class="px-6 mb-4">
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" 
+                             th:text="${errorMessage}">
+                            Error message
+                        </div>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <form th:action="@{/user/register}" th:object="${user}" method="post" class="px-6 pb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Personal Information -->
+                            <div>
+                                <h2 class="text-lg font-semibold mb-4">Personal Information</h2>
+                                
+                                <div class="mb-4">
+                                    <label for="firstName" class="block text-sm font-medium mb-1">First Name</label>
+                                    <input type="text" id="firstName" th:field="*{firstName}" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    <span th:if="${#fields.hasErrors('firstName')}" class="text-red-500 text-sm" 
+                                          th:errors="*{firstName}">First name error</span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="lastName" class="block text-sm font-medium mb-1">Last Name</label>
+                                    <input type="text" id="lastName" th:field="*{lastName}" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    <span th:if="${#fields.hasErrors('lastName')}" class="text-red-500 text-sm" 
+                                          th:errors="*{lastName}">Last name error</span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="email" class="block text-sm font-medium mb-1">Email Address</label>
+                                    <input type="email" id="email" th:field="*{email}" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    <span th:if="${#fields.hasErrors('email')}" class="text-red-500 text-sm" 
+                                          th:errors="*{email}">Email error</span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="phoneNumber" class="block text-sm font-medium mb-1">Phone Number</label>
+                                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    <span th:if="${#fields.hasErrors('phoneNumber')}" class="text-red-500 text-sm" 
+                                          th:errors="*{phoneNumber}">Phone number error</span>
+                                </div>
+                            </div>
+
+                            <!-- Account Security -->
+                            <div>
+                                <h2 class="text-lg font-semibold mb-4">Account Security</h2>
+                                
+                                <div class="mb-4">
+                                    <label for="password" class="block text-sm font-medium mb-1">Password</label>
+                                    <input type="password" id="password" th:field="*{password}" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    <span th:if="${#fields.hasErrors('password')}" class="text-red-500 text-sm" 
+                                          th:errors="*{password}">Password error</span>
+                                    <p class="mt-1 text-sm text-gray-500">
+                                        Password must be at least 8 characters long and include a number and special character
+                                    </p>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="confirmPassword" class="block text-sm font-medium mb-1">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required
+                                           class="w-full border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                </div>
+
+                                <!-- Marketing Preferences -->
+                                <div class="mb-6">
+                                    <div class="flex items-center mb-2">
+                                        <input type="checkbox" id="marketingEmails" th:field="*{marketingEmails}"
+                                               class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                        <label for="marketingEmails" class="ml-2 text-sm text-gray-600">
+                                            Send me emails about new products and offers
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="smsNotifications" th:field="*{smsNotifications}"
+                                               class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                        <label for="smsNotifications" class="ml-2 text-sm text-gray-600">
+                                            Send me SMS notifications about my orders
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="mb-6">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="terms" name="terms" required
+                                       class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                <label for="terms" class="ml-2 text-sm text-gray-600">
+                                    I agree to the 
+                                    <a href="/terms" class="text-primary hover:text-gray-800">Terms and Conditions</a>
+                                    and
+                                    <a href="/privacy" class="text-primary hover:text-gray-800">Privacy Policy</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" 
+                                class="w-full bg-primary text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="relative px-6 pb-6">
+                        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">Or sign up with</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Registration -->
+                    <div class="px-6 pb-8 space-y-4">
+                        <button type="button" 
+                                class="w-full flex items-center justify-center px-4 py-2 border rounded-full hover:bg-gray-50 transition duration-300">
+                            <img src="https://www.google.com/favicon.ico" alt="Google" class="h-5 w-5 mr-2">
+                            <span>Continue with Google</span>
+                        </button>
+                        <button type="button" 
+                                class="w-full flex items-center justify-center px-4 py-2 border rounded-full hover:bg-gray-50 transition duration-300">
+                            <img src="https://www.facebook.com/favicon.ico" alt="Facebook" class="h-5 w-5 mr-2">
+                            <span>Continue with Facebook</span>
+                        </button>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="px-6 py-4 bg-gray-50 text-center">
+                        <p class="text-sm text-gray-600">
+                            Already have an account? 
+                            <a href="/user/login" class="text-primary font-semibold hover:text-gray-800">
+                                Sign in
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            // Password confirmation validation
+            document.getElementById('confirmPassword').addEventListener('input', function() {
+                const password = document.getElementById('password').value;
+                const confirmPassword = this.value;
+                
+                if (password !== confirmPassword) {
+                    this.setCustomValidity('Passwords do not match');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+        </script>
+    </th:block>
+</body>
+</html>
