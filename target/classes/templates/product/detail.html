@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title th:text="${product.name + ' - Bling Bag'}">Product - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <!-- Breadcrumb -->
+        <nav class="bg-gray-100 py-3">
+            <div class="container mx-auto px-4">
+                <ol class="flex items-center space-x-2 text-sm">
+                    <li><a href="/" class="text-gray-600 hover:text-primary">Home</a></li>
+                    <li><span class="text-gray-400">/</span></li>
+                    <li><a th:href="@{'/product/category/' + ${product.category.id}}" 
+                           class="text-gray-600 hover:text-primary" 
+                           th:text="${product.category.name}">Category</a></li>
+                    <li><span class="text-gray-400">/</span></li>
+                    <li class="text-primary" th:text="${product.name}">Product Name</li>
+                </ol>
+            </div>
+        </nav>
+
+        <!-- Product Details -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Product Images -->
+                    <div>
+                        <!-- Main Image -->
+                        <div class="mb-4">
+                            <img th:src="${product.imageUrl}" th:alt="${product.name}" 
+                                 class="w-full h-auto rounded-lg" id="mainImage">
+                        </div>
+                        <!-- Thumbnail Images -->
+                        <div class="grid grid-cols-4 gap-4" th:if="${not #lists.isEmpty(product.additionalImages)}">
+                            <img th:each="image : ${product.additionalImages}" 
+                                 th:src="${image}" th:alt="${product.name}"
+                                 class="w-full h-24 object-cover rounded cursor-pointer hover:opacity-75 transition duration-300"
+                                 onclick="updateMainImage(this.src)">
+                        </div>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div>
+                        <h1 class="text-3xl font-bold mb-4" th:text="${product.name}">Product Name</h1>
+                        
+                        <!-- Price -->
+                        <div class="mb-6">
+                            <span class="text-2xl font-bold" th:text="'₹' + ${product.discountedPrice}">₹999</span>
+                            <span class="text-lg text-gray-500 line-through ml-2" 
+                                  th:if="${product.price != product.discountedPrice}"
+                                  th:text="'₹' + ${product.price}">₹1999</span>
+                            <span class="text-green-600 ml-2" 
+                                  th:if="${product.price != product.discountedPrice}"
+                                  th:text="'(' + ${#numbers.formatDecimal((product.price - product.discountedPrice) / product.price * 100, 0, 0)} + '% OFF)'">
+                                (50% OFF)
+                            </span>
+                        </div>
+
+                        <!-- Stock Status -->
+                        <div class="mb-6">
+                            <span th:if="${product.stockQuantity > 0}" class="text-green-600">
+                                <i class="fas fa-check-circle"></i> In Stock
+                            </span>
+                            <span th:unless="${product.stockQuantity > 0}" class="text-red-600">
+                                <i class="fas fa-times-circle"></i> Out of Stock
+                            </span>
+                        </div>
+
+                        <!-- Color Selection -->
+                        <div class="mb-6" th:if="${not #sets.isEmpty(product.colors)}">
+                            <h3 class="text-lg font-semibold mb-2">Select Color</h3>
+                            <div class="flex space-x-2">
+                                <button th:each="color : ${product.colors}"
+                                        th:data-color="${color}"
+                                        class="w-8 h-8 rounded-full border-2 border-transparent hover:border-primary focus:border-primary focus:outline-none transition duration-300"
+                                        th:style="'background-color:' + ${color}"
+                                        onclick="selectColor(this)">
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold mb-2">Quantity</h3>
+                            <div class="flex items-center space-x-4">
+                                <button onclick="updateQuantity(-1)" 
+                                        class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 focus:outline-none">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" id="quantity" value="1" min="1" 
+                                       th:max="${product.stockQuantity}"
+                                       class="w-16 text-center border rounded px-2 py-1">
+                                <button onclick="updateQuantity(1)" 
+                                        class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 focus:outline-none">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Add to Cart -->
+                        <button onclick="addToCart()" 
+                                class="w-full bg-primary text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300 mb-6"
+                                th:disabled="${product.stockQuantity <= 0}">
+                            Add to Cart
+                        </button>
+
+                        <!-- Product Details -->
+                        <div class="border-t pt-6">
+                            <h3 class="text-lg font-semibold mb-4">Product Details</h3>
+                            <div class="prose max-w-none" th:utext="${product.description}">
+                                Product description here...
+                            </div>
+                            
+                            <!-- Additional Info -->
+                            <div class="mt-6 space-y-4">
+                                <div th:if="${product.materialType}">
+                                    <span class="font-semibold">Material:</span>
+                                    <span th:text="${product.materialType}">Material Type</span>
+                                </div>
+                                <div th:if="${product.weightInGrams}">
+                                    <span class="font-semibold">Weight:</span>
+                                    <span th:text="${product.weightInGrams + ' grams'}">Weight</span>
+                                </div>
+                                <div>
+                                    <span class="font-semibold">SKU:</span>
+                                    <span th:text="${product.sku}">SKU</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Products -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-8">You May Also Like</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div th:each="relatedProduct : ${relatedProducts}" class="group">
+                        <div class="relative">
+                            <a th:href="@{'/product/' + ${relatedProduct.id}}">
+                                <img th:src="${relatedProduct.imageUrl}" th:alt="${relatedProduct.name}" 
+                                     class="w-full h-64 object-cover rounded-lg">
+                                <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition duration-300 rounded-lg"></div>
+                            </a>
+                            <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-primary text-white px-6 py-2 rounded-full opacity-0 group-hover:opacity-100 transition duration-300"
+                                    th:onclick="'quickAddToCart(' + ${relatedProduct.id} + ')'">
+                                Add to Cart
+                            </button>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-medium" th:text="${relatedProduct.name}">Product Name</h3>
+                            <div class="mt-1">
+                                <span class="text-lg font-bold" th:text="'₹' + ${relatedProduct.discountedPrice}">₹999</span>
+                                <span class="text-sm text-gray-500 line-through ml-2" 
+                                      th:if="${relatedProduct.price != relatedProduct.discountedPrice}"
+                                      th:text="'₹' + ${relatedProduct.price}">₹1999</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script th:inline="javascript">
+            let selectedColor = null;
+            const productId = /*[[${product.id}]]*/ null;
+
+            function updateMainImage(src) {
+                document.getElementById('mainImage').src = src;
+            }
+
+            function selectColor(button) {
+                // Remove active class from all buttons
+                document.querySelectorAll('[data-color]').forEach(btn => {
+                    btn.classList.remove('border-primary');
+                });
+                // Add active class to selected button
+                button.classList.add('border-primary');
+                selectedColor = button.getAttribute('data-color');
+            }
+
+            function updateQuantity(change) {
+                const input = document.getElementById('quantity');
+                const newValue = parseInt(input.value) + change;
+                if (newValue >= 1 && newValue <= parseInt(input.max)) {
+                    input.value = newValue;
+                }
+            }
+
+            function addToCart() {
+                const quantity = document.getElementById('quantity').value;
+                
+                fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `productId=${productId}&quantity=${quantity}${selectedColor ? '&color=' + selectedColor : ''}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Update cart count
+                        const cartCount = document.querySelector('.cart-count');
+                        if (cartCount) {
+                            cartCount.textContent = data.cartItemCount;
+                        }
+                        // Show success message
+                        alert('Product added to cart successfully');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error adding product to cart');
+                });
+            }
+
+            function quickAddToCart(productId) {
+                fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `productId=${productId}&quantity=1`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Update cart count
+                        const cartCount = document.querySelector('.cart-count');
+                        if (cartCount) {
+                            cartCount.textContent = data.cartItemCount;
+                        }
+                        // Show success message
+                        alert('Product added to cart successfully');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error adding product to cart');
+                });
+            }
+        </script>
+    </th:block>
+</body>
+</html>
