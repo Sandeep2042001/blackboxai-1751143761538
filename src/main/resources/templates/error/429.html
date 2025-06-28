@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Too Many Requests - Bling Bag</title>
+    <meta http-equiv="refresh" th:content="${retryAfter != null ? retryAfter : '60'}">
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- Rate Limit Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <i class="fas fa-stopwatch text-8xl text-primary"></i>
+                        <div class="absolute -top-2 -right-2">
+                            <i class="fas fa-hand-paper text-4xl text-yellow-500 animate-pulse"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">Too Many Requests</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    We've detected unusually high traffic from your connection. 
+                    Please wait a moment before trying again.
+                </p>
+
+                <!-- Rate Limit Status -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-xl mx-auto mb-8">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 text-xl mr-2"></i>
+                        <span class="text-yellow-800 font-medium">Rate Limit Exceeded</span>
+                    </div>
+                    <div class="text-sm text-yellow-600">
+                        <p class="mb-2">Automatically retrying in:</p>
+                        <div class="text-2xl font-bold" id="countdown">
+                            <span id="seconds" th:text="${retryAfter != null ? retryAfter : '60'}">60</span> seconds
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why This Happens -->
+                <div class="bg-white border rounded-lg p-6 max-w-3xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-6">Why This Happens</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <i class="fas fa-shield-alt text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Security</h4>
+                            <p class="text-sm text-gray-600">
+                                Protects our platform from automated attacks
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-server text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Performance</h4>
+                            <p class="text-sm text-gray-600">
+                                Ensures fair resource distribution
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-users text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Fair Usage</h4>
+                            <p class="text-sm text-gray-600">
+                                Maintains quality service for all users
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Causes -->
+                <div class="bg-white border rounded-lg p-6 max-w-3xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-6">Common Causes</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                        <!-- User Actions -->
+                        <div>
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fas fa-mouse-pointer text-xl mr-2"></i>
+                                User Actions
+                            </h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+                                <li>Rapid page refreshing</li>
+                                <li>Multiple concurrent requests</li>
+                                <li>Quick successive searches</li>
+                                <li>Automated scripts or bots</li>
+                            </ul>
+                        </div>
+                        <!-- Technical Issues -->
+                        <div>
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fas fa-code text-xl mr-2"></i>
+                                Technical Issues
+                            </h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+                                <li>Browser extensions</li>
+                                <li>Auto-refresh tools</li>
+                                <li>Network issues</li>
+                                <li>Shared IP addresses</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What You Can Do -->
+                <div class="bg-gray-50 border rounded-lg p-6 max-w-3xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-6">What You Can Do</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <i class="fas fa-clock text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Wait</h4>
+                            <p class="text-sm text-gray-600">
+                                Allow some time before retrying
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-sync-alt text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Refresh Less</h4>
+                            <p class="text-sm text-gray-600">
+                                Avoid rapid page refreshing
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-puzzle-piece text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Check Extensions</h4>
+                            <p class="text-sm text-gray-600">
+                                Disable problematic extensions
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button id="retryButton" disabled
+                            class="px-6 py-2 border border-gray-300 text-gray-400 rounded-full cursor-not-allowed transition duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Please Wait...
+                    </button>
+                    <a href="/contact" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        <i class="fas fa-headset mr-2"></i>
+                        Need Help?
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4 text-center">
+                <h3 class="text-lg font-semibold mb-4">Still Having Issues?</h3>
+                <p class="text-gray-600 mb-6">
+                    If you continue to experience this error, please contact our support team.
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <a href="mailto:support@blingbag.co.in" class="flex items-center text-primary hover:text-gray-800">
+                        <i class="fas fa-envelope mr-2"></i>
+                        support@blingbag.co.in
+                    </a>
+                    <a href="tel:+911234567890" class="flex items-center text-primary hover:text-gray-800">
+                        <i class="fas fa-phone-alt mr-2"></i>
+                        +91 123 456 7890
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script th:inline="javascript">
+            // Countdown timer
+            const retryAfter = /*[[${retryAfter != null ? retryAfter : 60}]]*/ 60;
+            let timeLeft = retryAfter;
+            const secondsElement = document.getElementById('seconds');
+            const retryButton = document.getElementById('retryButton');
+
+            function updateCountdown() {
+                if (timeLeft <= 0) {
+                    location.reload();
+                    return;
+                }
+
+                secondsElement.textContent = timeLeft;
+                timeLeft--;
+
+                if (timeLeft <= 10) {
+                    retryButton.classList.remove('cursor-not-allowed', 'border-gray-300', 'text-gray-400');
+                    retryButton.classList.add('border-primary', 'text-primary', 'hover:bg-primary', 'hover:text-white');
+                    retryButton.disabled = false;
+                    retryButton.innerHTML = '<i class="fas fa-sync-alt mr-2"></i>Retry Now';
+                }
+
+                setTimeout(updateCountdown, 1000);
+            }
+
+            document.addEventListener('DOMContentLoaded', updateCountdown);
+        </script>
+    </th:block>
+</body>
+</html>
