@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Payment Error - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- Payment Error Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <i class="fas fa-exclamation-circle text-8xl text-primary"></i>
+                        <div class="absolute -top-2 -right-2">
+                            <i class="fas fa-rupee-sign text-4xl text-red-500 animate-bounce"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">Payment Error</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto" th:text="${errorMessage}">
+                    We encountered an issue processing your payment. Please try again or use a different payment method.
+                </p>
+
+                <!-- Error Details -->
+                <div class="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold text-red-800 mb-4">Common Payment Issues:</h3>
+                    <ul class="text-left space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-info-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Insufficient funds in the account</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-info-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Card declined by the issuing bank</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-info-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Invalid card details or expiration date</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-info-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Transaction timeout or network issues</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Alternative Payment Methods -->
+                <div class="bg-white border rounded-lg p-6 max-w-2xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Available Payment Methods</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="p-4 border rounded-lg text-center">
+                            <i class="fas fa-money-bill-wave text-2xl text-primary mb-2"></i>
+                            <p class="text-sm font-medium">Cash on Delivery</p>
+                        </div>
+                        <div class="p-4 border rounded-lg text-center">
+                            <i class="fas fa-credit-card text-2xl text-primary mb-2"></i>
+                            <p class="text-sm font-medium">Credit/Debit Card</p>
+                        </div>
+                        <div class="p-4 border rounded-lg text-center">
+                            <i class="fas fa-mobile-alt text-2xl text-primary mb-2"></i>
+                            <p class="text-sm font-medium">UPI</p>
+                        </div>
+                        <div class="p-4 border rounded-lg text-center">
+                            <i class="fas fa-university text-2xl text-primary mb-2"></i>
+                            <p class="text-sm font-medium">Net Banking</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="history.back()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300">
+                        Try Again
+                    </button>
+                    <a href="/cart/checkout" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        Change Payment Method
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">Need Assistance?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <!-- Customer Support -->
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-headset text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Contact Support</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Our payment support team is available 24/7
+                        </p>
+                        <a href="tel:+911234567890" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            +91 123 456 7890
+                        </a>
+                    </div>
+
+                    <!-- Email Support -->
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-envelope text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Email Us</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Send us your payment-related queries
+                        </p>
+                        <a href="mailto:payments@blingbag.co.in" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            payments@blingbag.co.in
+                        </a>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-question-circle text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Payment FAQ</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Find answers to common payment issues
+                        </p>
+                        <a href="/faq#payments" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            View FAQs →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Save Cart -->
+        <section class="py-12">
+            <div class="container mx-auto px-4 text-center">
+                <p class="text-gray-600">
+                    Don't worry! Your cart items are saved. 
+                    You can complete the purchase later or try a different payment method.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            // Add any payment-related scripts here
+            document.addEventListener('DOMContentLoaded', function() {
+                // Example: Auto-refresh the page after 5 minutes
+                setTimeout(() => {
+                    location.reload();
+                }, 300000);
+            });
+        </script>
+    </th:block>
+</body>
+</html>
