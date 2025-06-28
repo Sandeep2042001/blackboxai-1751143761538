@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Shopping Cart - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <!-- Breadcrumb -->
+        <nav class="bg-gray-100 py-3">
+            <div class="container mx-auto px-4">
+                <ol class="flex items-center space-x-2 text-sm">
+                    <li><a href="/" class="text-gray-600 hover:text-primary">Home</a></li>
+                    <li><span class="text-gray-400">/</span></li>
+                    <li class="text-primary">Shopping Cart</li>
+                </ol>
+            </div>
+        </nav>
+
+        <!-- Cart Content -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
+
+                <!-- Empty Cart Message -->
+                <div th:if="${#lists.isEmpty(cartItems)}" class="text-center py-12">
+                    <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
+                    <h2 class="text-2xl font-semibold text-gray-600 mb-4">Your cart is empty</h2>
+                    <a href="/shop" class="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-gray-800 transition duration-300">
+                        Continue Shopping
+                    </a>
+                </div>
+
+                <!-- Cart Items -->
+                <div th:unless="${#lists.isEmpty(cartItems)}" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Cart Items List -->
+                    <div class="lg:col-span-2">
+                        <div class="space-y-4">
+                            <div th:each="item : ${cartItems}" class="flex items-center border rounded-lg p-4 bg-white">
+                                <!-- Product Image -->
+                                <img th:src="${item.product.imageUrl}" th:alt="${item.product.name}" 
+                                     class="w-24 h-24 object-cover rounded">
+                                
+                                <!-- Product Details -->
+                                <div class="flex-grow ml-4">
+                                    <h3 class="text-lg font-semibold">
+                                        <a th:href="@{'/product/' + ${item.product.id}}" 
+                                           th:text="${item.product.name}"
+                                           class="hover:text-primary">
+                                            Product Name
+                                        </a>
+                                    </h3>
+                                    <p class="text-gray-600" th:if="${item.selectedColor}" 
+                                       th:text="'Color: ' + ${item.selectedColor}">
+                                        Color: Gold
+                                    </p>
+                                    <div class="mt-2 flex items-center space-x-4">
+                                        <!-- Quantity Controls -->
+                                        <div class="flex items-center space-x-2">
+                                            <button th:onclick="'updateQuantity(' + ${item.product.id} + ', -1)'"
+                                                    class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 focus:outline-none">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" th:value="${item.quantity}" min="1" 
+                                                   th:max="${item.product.stockQuantity}"
+                                                   th:onchange="'updateQuantity(' + ${item.product.id} + ', 0, this.value)'"
+                                                   class="w-16 text-center border rounded px-2 py-1">
+                                            <button th:onclick="'updateQuantity(' + ${item.product.id} + ', 1)'"
+                                                    class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 focus:outline-none">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <!-- Price -->
+                                        <div>
+                                            <span class="text-lg font-bold" th:text="'₹' + ${item.total}">₹999</span>
+                                            <span class="text-sm text-gray-500 line-through ml-2" 
+                                                  th:if="${item.price != item.product.discountedPrice}"
+                                                  th:text="'₹' + ${item.price * item.quantity}">₹1999</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Remove Button -->
+                                <button th:onclick="'removeItem(' + ${item.product.id} + ')'"
+                                        class="ml-4 text-gray-400 hover:text-red-500 focus:outline-none">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white border rounded-lg p-6">
+                            <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+                            
+                            <!-- Subtotal -->
+                            <div class="flex justify-between mb-4">
+                                <span>Subtotal</span>
+                                <span class="font-semibold" th:text="'₹' + ${subtotal}">₹999</span>
+                            </div>
+
+                            <!-- Shipping -->
+                            <div class="flex justify-between mb-4">
+                                <span>Shipping</span>
+                                <span class="font-semibold" th:text="${shippingCost > 0 ? '₹' + shippingCost : 'Free'}">Free</span>
+                            </div>
+
+                            <!-- Discount -->
+                            <div class="flex justify-between mb-4" th:if="${discount > 0}">
+                                <span>Discount</span>
+                                <span class="font-semibold text-green-600" th:text="'-₹' + ${discount}">-₹100</span>
+                            </div>
+
+                            <!-- Coupon Code -->
+                            <div class="mb-4">
+                                <div class="flex space-x-2">
+                                    <input type="text" id="couponCode" placeholder="Enter coupon code" 
+                                           class="flex-grow border rounded px-3 py-2 focus:outline-none focus:border-primary">
+                                    <button onclick="applyCoupon()"
+                                            class="bg-primary text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-300">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Total -->
+                            <div class="border-t pt-4 mb-6">
+                                <div class="flex justify-between">
+                                    <span class="text-lg font-semibold">Total</span>
+                                    <span class="text-lg font-bold" th:text="'₹' + ${total}">₹999</span>
+                                </div>
+                            </div>
+
+                            <!-- Checkout Button -->
+                            <a href="/cart/checkout" 
+                               class="block w-full bg-primary text-white text-center py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300">
+                                Proceed to Checkout
+                            </a>
+
+                            <!-- Continue Shopping -->
+                            <a href="/shop" 
+                               class="block w-full text-center mt-4 text-gray-600 hover:text-primary">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script th:inline="javascript">
+            function updateQuantity(productId, change, newValue = null) {
+                const quantity = newValue !== null ? newValue : 
+                    parseInt(document.querySelector(`input[onchange*="${productId}"]`).value) + change;
+
+                fetch('/cart/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `productId=${productId}&quantity=${quantity}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error updating cart');
+                });
+            }
+
+            function removeItem(productId) {
+                if (confirm('Are you sure you want to remove this item?')) {
+                    fetch('/cart/remove', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `productId=${productId}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error removing item');
+                    });
+                }
+            }
+
+            function applyCoupon() {
+                const couponCode = document.getElementById('couponCode').value;
+                
+                fetch('/cart/apply-coupon', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `couponCode=${couponCode}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error applying coupon');
+                });
+            }
+        </script>
+    </th:block>
+</body>
+</html>
