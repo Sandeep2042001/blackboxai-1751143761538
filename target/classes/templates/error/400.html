@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>400 Bad Request - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- 400 Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <span class="text-9xl font-bold text-primary">4</span>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <i class="fas fa-exclamation-circle text-4xl text-white animate-pulse"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">0</span>
+                        <div class="absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-1/2">
+                            <i class="fas fa-exclamation-circle text-4xl text-white animate-pulse delay-100"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">0</span>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">Invalid Request</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    The request couldn't be processed due to invalid input. 
+                    Please check your information and try again.
+                </p>
+
+                <!-- Validation Errors -->
+                <div th:if="${errors}" class="mb-8">
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl mx-auto">
+                        <h3 class="text-lg font-semibold text-red-800 mb-4">Please correct the following errors:</h3>
+                        <ul class="list-disc list-inside text-left space-y-2">
+                            <li th:each="error : ${errors}" class="text-red-600" th:text="${error}">
+                                Error message
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Form Recovery Tips -->
+                <div class="bg-white border rounded-lg p-6 max-w-2xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Tips for Resolving Common Issues:</h3>
+                    <ul class="text-left space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Make sure all required fields are filled out correctly</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Check that email addresses and phone numbers are in the correct format</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Ensure passwords meet the minimum requirements (if applicable)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Verify that any uploaded files meet the size and format requirements</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="history.back()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300">
+                        Go Back
+                    </button>
+                    <a href="/" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        Return Home
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">Need Help?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-headset text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Contact Support</h3>
+                        <p class="text-sm text-gray-600 mb-4">Our team is here to help you resolve any issues</p>
+                        <a href="/contact" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            Get in touch →
+                        </a>
+                    </div>
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-question-circle text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">FAQ</h3>
+                        <p class="text-sm text-gray-600 mb-4">Find answers to common questions</p>
+                        <a href="/faq" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            View FAQs →
+                        </a>
+                    </div>
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-comments text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Live Chat</h3>
+                        <p class="text-sm text-gray-600 mb-4">Chat with our customer service team</p>
+                        <button onclick="openLiveChat()" 
+                                class="text-primary hover:text-gray-800 text-sm font-medium">
+                            Start chat →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            function openLiveChat() {
+                // Implement live chat functionality
+                alert('Live chat feature coming soon!');
+            }
+
+            // Add animation delay classes
+            document.addEventListener('DOMContentLoaded', function() {
+                const pulseElements = document.querySelectorAll('.animate-pulse');
+                pulseElements.forEach((el, index) => {
+                    if (index > 0) {
+                        el.style.animationDelay = `${index * 0.2}s`;
+                    }
+                });
+            });
+        </script>
+    </th:block>
+</body>
+</html>
