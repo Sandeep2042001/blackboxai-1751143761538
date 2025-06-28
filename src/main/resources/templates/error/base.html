@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title th:text="${status + ' - ' + error}">Error - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- Error Icon -->
+                <div class="mb-8">
+                    <i th:class="${status == 404 ? 'fas fa-search' : 
+                                 status == 403 ? 'fas fa-lock' : 
+                                 status == 400 ? 'fas fa-exclamation-circle' : 
+                                 'fas fa-exclamation-triangle'}"
+                       class="text-8xl text-primary"></i>
+                </div>
+
+                <!-- Error Status -->
+                <h1 class="text-6xl font-bold mb-4" th:text="${status}">500</h1>
+
+                <!-- Error Message -->
+                <h2 class="text-2xl font-semibold mb-6" th:text="${error}">Internal Server Error</h2>
+                <p class="text-gray-600 mb-8" th:text="${message}">Something went wrong. Please try again later.</p>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="history.back()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300">
+                        Go Back
+                    </button>
+                    <a href="/" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        Return Home
+                    </a>
+                </div>
+
+                <!-- Additional Details (for development) -->
+                <div th:if="${trace}" class="mt-12 text-left">
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4">Stack Trace</h3>
+                        <pre class="text-sm overflow-x-auto" th:text="${trace}"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
