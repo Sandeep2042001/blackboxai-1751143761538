@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Database Error - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- Database Error Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <i class="fas fa-database text-8xl text-primary"></i>
+                        <div class="absolute -top-2 -right-2">
+                            <i class="fas fa-bolt text-4xl text-yellow-500 animate-pulse"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">Database Connection Error</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto" th:text="${errorMessage}">
+                    We're experiencing some technical difficulties with our database. 
+                    Our team has been notified and is working to resolve the issue.
+                </p>
+
+                <!-- Status Information -->
+                <div class="bg-white border rounded-lg p-6 max-w-2xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-4">System Status</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <i class="fas fa-database text-3xl text-red-500 mb-2"></i>
+                            <p class="font-medium">Database</p>
+                            <p class="text-sm text-red-600">Connection Error</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-shopping-cart text-3xl text-green-500 mb-2"></i>
+                            <p class="font-medium">Shopping Cart</p>
+                            <p class="text-sm text-green-600">Available</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-server text-3xl text-yellow-500 mb-2"></i>
+                            <p class="font-medium">Server</p>
+                            <p class="text-sm text-yellow-600">Limited Functionality</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Actions -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-2xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-4">What You Can Do:</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                        <div class="flex items-start">
+                            <i class="fas fa-clock text-blue-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Wait a Moment</h4>
+                                <p class="text-sm text-blue-600">The issue might resolve itself shortly</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-redo text-blue-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Try Again</h4>
+                                <p class="text-sm text-blue-600">Refresh the page after a few minutes</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-bookmark text-blue-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Save for Later</h4>
+                                <p class="text-sm text-blue-600">Bookmark items you're interested in</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-envelope text-blue-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Get Notified</h4>
+                                <p class="text-sm text-blue-600">Sign up for status updates</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Notification Form -->
+                <div class="bg-white border rounded-lg p-6 max-w-xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-2">Get Status Updates</h3>
+                    <p class="text-gray-600 mb-4">
+                        Leave your email and we'll notify you when our services are fully restored.
+                    </p>
+                    <form class="flex max-w-md mx-auto" onsubmit="return subscribeToUpdates(event)">
+                        <input type="email" placeholder="Enter your email" required
+                               class="flex-grow px-4 py-2 border rounded-l-full focus:outline-none focus:border-primary">
+                        <button type="submit" 
+                                class="px-6 py-2 bg-primary text-white rounded-r-full hover:bg-gray-800 transition duration-300">
+                            Notify Me
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="location.reload()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Try Again
+                    </button>
+                    <a href="/" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        <i class="fas fa-home mr-2"></i>
+                        Return Home
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Support -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">Technical Support</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-headset text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Support Team</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Our technical team is available 24/7
+                        </p>
+                        <a href="tel:+911234567890" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            +91 123 456 7890
+                        </a>
+                    </div>
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-envelope text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Email Support</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Send us your technical queries
+                        </p>
+                        <a href="mailto:tech.support@blingbag.co.in" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            tech.support@blingbag.co.in
+                        </a>
+                    </div>
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-status text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">System Status</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Check our system status page
+                        </p>
+                        <a href="/status" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            View Status →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            function subscribeToUpdates(event) {
+                event.preventDefault();
+                const email = event.target.querySelector('input[type="email"]').value;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    alert(`Thank you! We'll notify ${email} when our services are restored.`);
+                    event.target.reset();
+                }, 500);
+
+                return false;
+            }
+
+            // Auto-refresh after 5 minutes
+            setTimeout(() => {
+                location.reload();
+            }, 300000);
+        </script>
+    </th:block>
+</body>
+</html>
