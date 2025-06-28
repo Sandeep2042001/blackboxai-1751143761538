@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>No Internet Connection - Bling Bag</title>
+    <meta name="theme-color" content="#1a1a1a">
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- Offline Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <i class="fas fa-wifi text-8xl text-primary"></i>
+                        <div class="absolute -top-2 -right-2">
+                            <i class="fas fa-times-circle text-4xl text-red-500 animate-pulse"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">No Internet Connection</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    It seems you're offline. Please check your internet connection and try again.
+                    Don't worry, we'll automatically reconnect when you're back online.
+                </p>
+
+                <!-- Connection Status -->
+                <div id="connectionStatus" class="bg-red-50 border border-red-200 rounded-lg p-6 max-w-xl mx-auto mb-8">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-signal-slash text-red-500 text-xl mr-2"></i>
+                        <span class="text-red-800 font-medium">You are currently offline</span>
+                    </div>
+                    <p class="text-sm text-red-600">
+                        We'll automatically refresh when your connection is restored
+                    </p>
+                </div>
+
+                <!-- Offline Features -->
+                <div class="bg-white border rounded-lg p-6 max-w-3xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-6">Available Offline</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <i class="fas fa-shopping-cart text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Saved Cart</h4>
+                            <p class="text-sm text-gray-600">
+                                Your cart items are saved locally
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-heart text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Wishlist</h4>
+                            <p class="text-sm text-gray-600">
+                                Access your saved favorites
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-history text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Recent Views</h4>
+                            <p class="text-sm text-gray-600">
+                                Browse recently viewed items
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Troubleshooting Steps -->
+                <div class="bg-white border rounded-lg p-6 max-w-3xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-6">Troubleshooting Steps</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                        <!-- Network Check -->
+                        <div>
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fas fa-network-wired text-xl mr-2"></i>
+                                Check Network
+                            </h4>
+                            <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+                                <li>Verify Wi-Fi is turned on</li>
+                                <li>Check router connection</li>
+                                <li>Try different network</li>
+                                <li>Test other websites</li>
+                            </ol>
+                        </div>
+                        <!-- Mobile Data -->
+                        <div>
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fas fa-mobile-alt text-xl mr-2"></i>
+                                Mobile Data
+                            </h4>
+                            <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+                                <li>Enable mobile data</li>
+                                <li>Check signal strength</li>
+                                <li>Toggle airplane mode</li>
+                                <li>Restart device</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="location.reload()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Try Again
+                    </button>
+                    <button onclick="checkConnection()" 
+                            class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        <i class="fas fa-wifi mr-2"></i>
+                        Check Connection
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Offline Content -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">While You're Offline</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <!-- Recently Viewed -->
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-clock text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Recent Items</h3>
+                        <p class="text-sm text-gray-600">
+                            Browse your recently viewed products
+                        </p>
+                    </div>
+                    <!-- Saved Items -->
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-bookmark text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Saved Items</h3>
+                        <p class="text-sm text-gray-600">
+                            View your bookmarked products
+                        </p>
+                    </div>
+                    <!-- Contact Info -->
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-phone text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Contact Us</h3>
+                        <p class="text-sm text-gray-600">
+                            Call us to place your order
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            let isOnline = navigator.onLine;
+            const statusDiv = document.getElementById('connectionStatus');
+
+            function updateOnlineStatus() {
+                isOnline = navigator.onLine;
+                if (isOnline) {
+                    statusDiv.innerHTML = `
+                        <div class="flex items-center justify-center mb-4">
+                            <i class="fas fa-wifi text-green-500 text-xl mr-2"></i>
+                            <span class="text-green-800 font-medium">Connection restored!</span>
+                        </div>
+                        <p class="text-sm text-green-600">Refreshing page...</p>
+                    `;
+                    statusDiv.className = 'bg-green-50 border border-green-200 rounded-lg p-6 max-w-xl mx-auto mb-8';
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    statusDiv.innerHTML = `
+                        <div class="flex items-center justify-center mb-4">
+                            <i class="fas fa-signal-slash text-red-500 text-xl mr-2"></i>
+                            <span class="text-red-800 font-medium">You are currently offline</span>
+                        </div>
+                        <p class="text-sm text-red-600">We'll automatically refresh when your connection is restored</p>
+                    `;
+                    statusDiv.className = 'bg-red-50 border border-red-200 rounded-lg p-6 max-w-xl mx-auto mb-8';
+                }
+            }
+
+            function checkConnection() {
+                updateOnlineStatus();
+                if (!isOnline) {
+                    statusDiv.innerHTML = `
+                        <div class="flex items-center justify-center mb-4">
+                            <i class="fas fa-spinner fa-spin text-yellow-500 text-xl mr-2"></i>
+                            <span class="text-yellow-800 font-medium">Checking connection...</span>
+                        </div>
+                    `;
+                    statusDiv.className = 'bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-xl mx-auto mb-8';
+                    setTimeout(updateOnlineStatus, 1500);
+                }
+            }
+
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            document.addEventListener('DOMContentLoaded', updateOnlineStatus);
+        </script>
+    </th:block>
+</body>
+</html>
