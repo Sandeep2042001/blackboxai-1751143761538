@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>500 Internal Server Error - Bling Bag</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- 500 Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <span class="text-9xl font-bold text-primary">5</span>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <i class="fas fa-cog text-4xl text-white animate-spin"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">0</span>
+                        <div class="absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-1/2">
+                            <i class="fas fa-cog text-4xl text-white animate-spin-reverse"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">0</span>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">Oops! Something Went Wrong</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    Our jewelers are working hard to fix this issue. 
+                    Please try again later or explore our other collections in the meantime.
+                </p>
+
+                <!-- Error Details (for development) -->
+                <div th:if="${@environment.getActiveProfiles().length > 0 and @environment.getActiveProfiles()[0] == 'dev'}" 
+                     class="mb-8">
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-6 max-w-3xl mx-auto text-left">
+                        <h3 class="text-lg font-semibold text-red-800 mb-2">Error Details</h3>
+                        <p class="text-red-600 mb-2" th:text="${message}">Error message</p>
+                        <div th:if="${trace}" class="mt-4">
+                            <h4 class="font-semibold text-red-800 mb-2">Stack Trace:</h4>
+                            <pre class="text-sm text-red-600 overflow-x-auto" th:text="${trace}"></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggested Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-8">
+                    <a href="/" class="group">
+                        <div class="bg-white border rounded-lg p-6 hover:border-primary transition duration-300">
+                            <i class="fas fa-home text-3xl text-primary mb-4 group-hover:scale-110 transform transition duration-300"></i>
+                            <h3 class="font-semibold mb-2">Homepage</h3>
+                            <p class="text-sm text-gray-600">Return to our homepage</p>
+                        </div>
+                    </a>
+                    <a href="/shop" class="group">
+                        <div class="bg-white border rounded-lg p-6 hover:border-primary transition duration-300">
+                            <i class="fas fa-shopping-bag text-3xl text-primary mb-4 group-hover:scale-110 transform transition duration-300"></i>
+                            <h3 class="font-semibold mb-2">Continue Shopping</h3>
+                            <p class="text-sm text-gray-600">Browse our collections</p>
+                        </div>
+                    </a>
+                    <a href="/contact" class="group">
+                        <div class="bg-white border rounded-lg p-6 hover:border-primary transition duration-300">
+                            <i class="fas fa-headset text-3xl text-primary mb-4 group-hover:scale-110 transform transition duration-300"></i>
+                            <h3 class="font-semibold mb-2">Contact Support</h3>
+                            <p class="text-sm text-gray-600">Get help from our team</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="location.reload()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300">
+                        Try Again
+                    </button>
+                    <a href="/" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        Return Home
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Categories -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">Explore Our Collections</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <a href="/collections/necklace-sets" class="group">
+                        <div class="bg-white border rounded-lg p-6 text-center hover:border-primary transition duration-300">
+                            <i class="fas fa-gem text-3xl text-primary mb-4 group-hover:scale-110 transform transition duration-300"></i>
+                            <h3 class="font-semibold">Necklace Sets</h3>
+                        </div>
+                    </a>
+                    <a href="/collections/earrings" class="group">
+                        <div class="bg-white border rounded-lg p-6 text-center hover:border-primary transition duration-300">
+                            <i class="fas fa-ring text-3xl text-primary mb-4 group-hover:scale-110 transform transition duration-300"></i>
+                            <h3 class="font-semibold">Earrings</h3>
+                        </div>
+                    </a>
+                    <a href="/collections/bridal-sets" class="group">
+                        <div class="bg-white border rounded-lg p-6 text-center hover:border-primary transition duration-300">
+                            <i class="fas fa-crown text-3xl text-primary mb-4 group-hover:scale-110 transform transition duration-300"></i>
+                            <h3 class="font-semibold">Bridal Sets</h3>
+                        </div>
+                    </a>
+                    <a href="/collections/trending" class="group">
+                        <div class="bg-white border rounded-lg p-6 text-center hover:border-primary transition duration-300">
+                            <i class="fas fa-fire text-3xl text-primary mb-4 group-hover:scale-110 transform transition duration-300"></i>
+                            <h3 class="font-semibold">Trending</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section class="py-12">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-2xl font-bold mb-8">Need Assistance?</h2>
+                <div class="max-w-3xl mx-auto">
+                    <p class="text-gray-600 mb-6">
+                        Our customer support team is available to help you resolve any issues.
+                    </p>
+                    <div class="flex justify-center space-x-6">
+                        <a href="tel:+911234567890" class="flex items-center text-primary hover:text-gray-800">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            +91 123 456 7890
+                        </a>
+                        <a href="mailto:support@blingbag.co.in" class="flex items-center text-primary hover:text-gray-800">
+                            <i class="fas fa-envelope mr-2"></i>
+                            support@blingbag.co.in
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Styles -->
+    <style>
+        @keyframes spin-reverse {
+            from {
+                transform: rotate(360deg);
+            }
+            to {
+                transform: rotate(0deg);
+            }
+        }
+        .animate-spin-reverse {
+            animation: spin-reverse 2s linear infinite;
+        }
+    </style>
+</body>
+</html>
