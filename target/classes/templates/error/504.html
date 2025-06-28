@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>504 Gateway Timeout - Bling Bag</title>
+    <meta http-equiv="refresh" content="30">
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- Network Error Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <span class="text-9xl font-bold text-primary">5</span>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <i class="fas fa-wifi text-4xl text-white animate-pulse"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">0</span>
+                        <div class="absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-1/2">
+                            <i class="fas fa-clock text-4xl text-white animate-spin-slow"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">4</span>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">Connection Timeout</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    Oops! It seems our servers are taking too long to respond. 
+                    This could be due to high traffic or network issues.
+                </p>
+
+                <!-- Auto-Refresh Notice -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-xl mx-auto mb-8">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-sync-alt text-blue-500 animate-spin mr-2"></i>
+                        <span class="text-blue-800">Auto-refreshing in <span id="countdown">30</span> seconds...</span>
+                    </div>
+                    <p class="text-sm text-blue-600">
+                        You don't need to refresh the page manually. We'll try to reconnect automatically.
+                    </p>
+                </div>
+
+                <!-- Troubleshooting Tips -->
+                <div class="bg-white border rounded-lg p-6 max-w-2xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Try These Steps:</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                        <div class="flex items-start">
+                            <i class="fas fa-redo text-primary mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Refresh the Page</h4>
+                                <p class="text-sm text-gray-600">Click the refresh button or press F5</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-clock text-primary mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Wait a Moment</h4>
+                                <p class="text-sm text-gray-600">Try again in a few minutes</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-wifi text-primary mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Check Connection</h4>
+                                <p class="text-sm text-gray-600">Verify your internet connection</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-browser text-primary mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium mb-1">Clear Cache</h4>
+                                <p class="text-sm text-gray-600">Clear your browser's cache and cookies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="location.reload()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Refresh Now
+                    </button>
+                    <a href="/" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        <i class="fas fa-home mr-2"></i>
+                        Return Home
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connection Status -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white border rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">Connection Status</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span>Server Status</span>
+                                <span class="inline-flex items-center">
+                                    <i class="fas fa-circle text-yellow-500 mr-2"></i>
+                                    Checking...
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Response Time</span>
+                                <span class="text-red-500">30s+</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Your Connection</span>
+                                <span id="connectionStatus">Checking...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Contact -->
+        <section class="py-12">
+            <div class="container mx-auto px-4 text-center">
+                <h3 class="text-lg font-semibold mb-4">Still Having Issues?</h3>
+                <p class="text-gray-600 mb-6">
+                    If the problem persists, please contact our technical support team.
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <a href="mailto:tech.support@blingbag.co.in" class="flex items-center text-primary hover:text-gray-800">
+                        <i class="fas fa-envelope mr-2"></i>
+                        tech.support@blingbag.co.in
+                    </a>
+                    <a href="tel:+911234567890" class="flex items-center text-primary hover:text-gray-800">
+                        <i class="fas fa-phone-alt mr-2"></i>
+                        +91 123 456 7890
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            // Countdown timer
+            let timeLeft = 30;
+            const countdownElement = document.getElementById('countdown');
+            
+            function updateCountdown() {
+                countdownElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    location.reload();
+                } else {
+                    timeLeft--;
+                    setTimeout(updateCountdown, 1000);
+                }
+            }
+
+            // Check connection status
+            function checkConnection() {
+                const statusElement = document.getElementById('connectionStatus');
+                if (navigator.onLine) {
+                    statusElement.innerHTML = '<i class="fas fa-circle text-green-500 mr-2"></i>Connected';
+                } else {
+                    statusElement.innerHTML = '<i class="fas fa-circle text-red-500 mr-2"></i>Offline';
+                }
+            }
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', () => {
+                updateCountdown();
+                checkConnection();
+                window.addEventListener('online', checkConnection);
+                window.addEventListener('offline', checkConnection);
+            });
+        </script>
+    </th:block>
+
+    <style>
+        .animate-spin-slow {
+            animation: spin 3s linear infinite;
+        }
+    </style>
+</body>
+</html>
