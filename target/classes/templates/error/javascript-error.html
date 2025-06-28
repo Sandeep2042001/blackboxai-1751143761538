@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>JavaScript Required - Bling Bag</title>
+    <noscript>
+        <style>
+            .js-required {
+                display: none !important;
+            }
+            .no-js-warning {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- JavaScript Error Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <i class="fab fa-js-square text-8xl text-primary"></i>
+                        <div class="absolute -top-2 -right-2">
+                            <i class="fas fa-exclamation-triangle text-4xl text-yellow-500 animate-bounce"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="text-3xl font-bold mb-4">JavaScript Required</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    Our website requires JavaScript to provide you with the best shopping experience. 
+                    Please enable JavaScript in your browser settings to continue.
+                </p>
+
+                <!-- JavaScript Status -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-xl mx-auto mb-8">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-exclamation-circle text-yellow-500 text-xl mr-2"></i>
+                        <span class="text-yellow-800 font-medium js-required">JavaScript Error Detected</span>
+                        <span class="text-yellow-800 font-medium no-js-warning" style="display: none;">JavaScript is Disabled</span>
+                    </div>
+                    <p class="text-sm text-yellow-600">
+                        Interactive features like shopping cart, product filtering, and checkout require JavaScript.
+                    </p>
+                </div>
+
+                <!-- How to Enable JavaScript -->
+                <div class="bg-white border rounded-lg p-6 max-w-3xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-6">How to Enable JavaScript</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Chrome -->
+                        <div class="text-left">
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fab fa-chrome text-xl mr-2"></i>
+                                Google Chrome
+                            </h4>
+                            <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+                                <li>Click the menu icon (⋮)</li>
+                                <li>Select "Settings"</li>
+                                <li>Click "Privacy and security"</li>
+                                <li>Click "Site Settings"</li>
+                                <li>Click "JavaScript"</li>
+                                <li>Select "Sites can use JavaScript"</li>
+                            </ol>
+                        </div>
+                        <!-- Firefox -->
+                        <div class="text-left">
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fab fa-firefox text-xl mr-2"></i>
+                                Mozilla Firefox
+                            </h4>
+                            <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+                                <li>Type "about:config" in address bar</li>
+                                <li>Click "Accept the Risk"</li>
+                                <li>Search for "javascript.enabled"</li>
+                                <li>Set value to "true"</li>
+                                <li>Restart Firefox</li>
+                            </ol>
+                        </div>
+                        <!-- Safari -->
+                        <div class="text-left">
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fab fa-safari text-xl mr-2"></i>
+                                Safari
+                            </h4>
+                            <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+                                <li>Click "Safari" in menu</li>
+                                <li>Select "Preferences"</li>
+                                <li>Click "Security" tab</li>
+                                <li>Check "Enable JavaScript"</li>
+                                <li>Restart Safari</li>
+                            </ol>
+                        </div>
+                        <!-- Edge -->
+                        <div class="text-left">
+                            <h4 class="font-medium flex items-center mb-3">
+                                <i class="fab fa-edge text-xl mr-2"></i>
+                                Microsoft Edge
+                            </h4>
+                            <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+                                <li>Click the menu icon (⋯)</li>
+                                <li>Select "Settings"</li>
+                                <li>Click "Cookies and site permissions"</li>
+                                <li>Click "JavaScript"</li>
+                                <li>Enable "Allowed"</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Requiring JavaScript -->
+                <div class="bg-gray-50 border rounded-lg p-6 max-w-3xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-6">Features Requiring JavaScript</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <i class="fas fa-cart-plus text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Shopping Cart</h4>
+                            <p class="text-sm text-gray-600">
+                                Adding and managing cart items
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-filter text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Product Filters</h4>
+                            <p class="text-sm text-gray-600">
+                                Sorting and filtering products
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fas fa-credit-card text-3xl text-primary mb-4"></i>
+                            <h4 class="font-medium mb-2">Checkout</h4>
+                            <p class="text-sm text-gray-600">
+                                Payment processing and forms
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4">
+                    <button onclick="location.reload()" 
+                            class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300 js-required">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Try Again
+                    </button>
+                    <a href="/contact" 
+                       class="px-6 py-2 bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+                        <i class="fas fa-headset mr-2"></i>
+                        Need Help?
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alternative Access -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">Alternative Ways to Shop</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-phone text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Phone Orders</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Call us to place your order directly
+                        </p>
+                        <a href="tel:+911234567890" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            +91 123 456 7890
+                        </a>
+                    </div>
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-envelope text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Email Orders</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Send us your order details via email
+                        </p>
+                        <a href="mailto:orders@blingbag.co.in" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            orders@blingbag.co.in
+                        </a>
+                    </div>
+                    <div class="bg-white border rounded-lg p-6">
+                        <i class="fas fa-store text-3xl text-primary mb-4"></i>
+                        <h3 class="font-semibold mb-2">Visit Store</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Shop at our physical store locations
+                        </p>
+                        <a href="/store-locator" 
+                           class="text-primary hover:text-gray-800 text-sm font-medium">
+                            Find a Store →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            // Check if JavaScript is working
+            document.addEventListener('DOMContentLoaded', function() {
+                // If this runs, JavaScript is enabled
+                window.location.href = '/';
+            });
+        </script>
+    </th:block>
+</body>
+</html>
