@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>503 Service Unavailable - Bling Bag</title>
+    <meta http-equiv="refresh" content="60">
+</head>
+<body>
+    <main layout:fragment="content">
+        <section class="min-h-[60vh] flex items-center justify-center py-12">
+            <div class="container mx-auto px-4 text-center">
+                <!-- Maintenance Illustration -->
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <span class="text-9xl font-bold text-primary">5</span>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <i class="fas fa-tools text-4xl text-white animate-bounce"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">0</span>
+                        <div class="absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-1/2">
+                            <i class="fas fa-wrench text-4xl text-white animate-bounce delay-100"></i>
+                        </div>
+                        <span class="text-9xl font-bold text-primary">3</span>
+                    </div>
+                </div>
+
+                <!-- Maintenance Message -->
+                <h1 class="text-3xl font-bold mb-4">We're Currently Under Maintenance</h1>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    Our jewelers are polishing up the website to make your shopping experience even more brilliant. 
+                    We'll be back online shortly!
+                </p>
+
+                <!-- Estimated Time -->
+                <div class="bg-white border rounded-lg p-6 max-w-md mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Estimated Maintenance Time</h3>
+                    <div class="flex justify-center items-center space-x-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-primary mb-1" id="countdown">00:00</div>
+                            <div class="text-sm text-gray-600">Time Remaining</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="bg-gray-50 border rounded-lg p-6 max-w-xl mx-auto mb-8">
+                    <h3 class="text-lg font-semibold mb-2">Get Notified When We're Back</h3>
+                    <p class="text-gray-600 mb-4">
+                        Leave your email and we'll let you know as soon as we're back online. 
+                        Plus, receive a special 10% off coupon for your next purchase!
+                    </p>
+                    <form class="flex max-w-md mx-auto" onsubmit="return subscribeNewsletter(event)">
+                        <input type="email" placeholder="Enter your email" required
+                               class="flex-grow px-4 py-2 border rounded-l-full focus:outline-none focus:border-primary">
+                        <button type="submit" 
+                                class="px-6 py-2 bg-primary text-white rounded-r-full hover:bg-gray-800 transition duration-300">
+                            Notify Me
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Follow Us for Updates</h3>
+                    <div class="flex justify-center space-x-6">
+                        <a href="https://www.instagram.com/theblingbag" target="_blank" 
+                           class="text-2xl text-primary hover:text-gray-800 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/theblingbag" target="_blank"
+                           class="text-2xl text-primary hover:text-gray-800 transition duration-300">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://twitter.com/theblingbag" target="_blank"
+                           class="text-2xl text-primary hover:text-gray-800 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="bg-white border rounded-lg p-6 max-w-2xl mx-auto">
+                    <h3 class="text-lg font-semibold mb-4">Need Immediate Assistance?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <i class="fas fa-envelope text-2xl text-primary mb-2"></i>
+                            <h4 class="font-medium mb-1">Email Support</h4>
+                            <a href="mailto:support@blingbag.co.in" 
+                               class="text-primary hover:text-gray-800">support@blingbag.co.in</a>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone-alt text-2xl text-primary mb-2"></i>
+                            <h4 class="font-medium mb-1">Phone Support</h4>
+                            <a href="tel:+911234567890" 
+                               class="text-primary hover:text-gray-800">+91 123 456 7890</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Additional Scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            // Countdown Timer
+            function updateCountdown() {
+                // Set maintenance end time (example: 2 hours from now)
+                const endTime = new Date();
+                endTime.setHours(endTime.getHours() + 2);
+
+                function update() {
+                    const now = new Date();
+                    const diff = endTime - now;
+
+                    if (diff <= 0) {
+                        document.getElementById('countdown').textContent = '00:00';
+                        location.reload();
+                        return;
+                    }
+
+                    const minutes = Math.floor(diff / 60000);
+                    const seconds = Math.floor((diff % 60000) / 1000);
+                    document.getElementById('countdown').textContent = 
+                        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+
+                update();
+                setInterval(update, 1000);
+            }
+
+            // Newsletter Subscription
+            function subscribeNewsletter(event) {
+                event.preventDefault();
+                const email = event.target.querySelector('input[type="email"]').value;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    alert(`Thank you! We'll notify ${email} when we're back online.`);
+                    event.target.reset();
+                }, 500);
+
+                return false;
+            }
+
+            // Initialize countdown when page loads
+            document.addEventListener('DOMContentLoaded', updateCountdown);
+        </script>
+    </th:block>
+
+    <style>
+        /* Custom animation for tools */
+        @keyframes swing {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        .animate-swing {
+            animation: swing 2s infinite;
+            transform-origin: center;
+        }
+    </style>
+</body>
+</html>
