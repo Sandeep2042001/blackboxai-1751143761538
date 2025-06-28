@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">Bling Bag - Bollywood Inspired Fashion Store</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a1a1a',
+                        secondary: '#333333',
+                        accent: '#ffffff'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    
+    <!-- Additional styles -->
+    <th:block th:replace="${styles}" />
+</head>
+<body class="font-sans bg-white text-gray-900">
+    <!-- Top Banner -->
+    <div class="bg-primary text-white text-center py-2 text-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <p>FREE SHIPPING ON PREPAID ORDERS* above Rs. 500</p>
+                <p>Cash On Delivery Available</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <a href="/" class="text-2xl font-bold">
+                    BLINGBAG
+                    <span class="block text-xs text-gray-600">BOLLYWOOD INSPIRED FASHION STORE</span>
+                </a>
+
+                <!-- Search, Account, Cart -->
+                <div class="flex items-center space-x-6">
+                    <!-- Search -->
+                    <div class="relative">
+                        <input type="text" placeholder="Search..." 
+                               class="pl-10 pr-4 py-2 border rounded-full w-64 focus:outline-none focus:border-primary">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+
+                    <!-- Account -->
+                    <div class="relative group">
+                        <a href="/user/account" class="hover:text-primary">
+                            <i class="far fa-user text-xl"></i>
+                        </a>
+                        <!-- Account Dropdown -->
+                        <div class="absolute right-0 w-48 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block">
+                            <div sec:authorize="!isAuthenticated()">
+                                <a href="/user/login" class="block px-4 py-2 hover:bg-gray-100">Login</a>
+                                <a href="/user/register" class="block px-4 py-2 hover:bg-gray-100">Register</a>
+                            </div>
+                            <div sec:authorize="isAuthenticated()">
+                                <a href="/user/account" class="block px-4 py-2 hover:bg-gray-100">My Account</a>
+                                <a href="/user/orders" class="block px-4 py-2 hover:bg-gray-100">My Orders</a>
+                                <a href="/user/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                                <form th:action="@{/logout}" method="post" class="block">
+                                    <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart -->
+                    <a href="/cart" class="relative hover:text-primary">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                              th:text="${session.cartItemCount ?: 0}">0</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="py-4">
+                <ul class="flex justify-center space-x-8">
+                    <li><a href="/insta-reels-shop" class="hover:text-primary">INSTA REELS - SHOP</a></li>
+                    <li><a href="/product/new-arrivals" class="hover:text-primary">NEWEST ARRIVALS</a></li>
+                    <li><a href="/product/category/earrings" class="hover:text-primary">SHOP EARRINGS</a></li>
+                    <li><a href="/product/category/necklace-sets" class="hover:text-primary">SHOP NECKLACE SETS</a></li>
+                    <li><a href="/collections" class="hover:text-primary">SHOP BY COLLECTIONS</a></li>
+                    <li><a href="/product/featured" class="hover:text-primary">TRENDING PRODUCTS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        <th:block th:replace="${content}">
+            <!-- Page content will be inserted here -->
+        </th:block>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white mt-12">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About Bling Bag</h3>
+                    <p class="text-sm">Your one-stop destination for Bollywood inspired fashion jewelry. Discover our exclusive collection of ethnic and contemporary pieces.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/about" class="hover:text-accent">About Us</a></li>
+                        <li><a href="/contact" class="hover:text-accent">Contact Us</a></li>
+                        <li><a href="/shipping-policy" class="hover:text-accent">Shipping Policy</a></li>
+                        <li><a href="/return-policy" class="hover:text-accent">Return Policy</a></li>
+                        <li><a href="/privacy-policy" class="hover:text-accent">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Service -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Customer Service</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/track-order" class="hover:text-accent">Track Order</a></li>
+                        <li><a href="/faq" class="hover:text-accent">FAQ</a></li>
+                        <li><a href="/size-guide" class="hover:text-accent">Size Guide</a></li>
+                        <li><a href="/style-guide" class="hover:text-accent">Style Guide</a></li>
+                    </ul>
+                </div>
+
+                <!-- Connect -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/theblingbag" target="_blank" class="hover:text-accent">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </a>
+                        <a href="https://www.facebook.com/theblingbag" target="_blank" class="hover:text-accent">
+                            <i class="fab fa-facebook text-2xl"></i>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCJ7apLWClK8-ZpGwHN6-XSA" target="_blank" class="hover:text-accent">
+                            <i class="fab fa-youtube text-2xl"></i>
+                        </a>
+                        <a href="https://in.pinterest.com/the_bling_bag" target="_blank" class="hover:text-accent">
+                            <i class="fab fa-pinterest text-2xl"></i>
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm">Subscribe to our newsletter</p>
+                        <form class="mt-2 flex">
+                            <input type="email" placeholder="Your email" 
+                                   class="px-4 py-2 w-full text-gray-900 rounded-l focus:outline-none">
+                            <button type="submit" 
+                                    class="px-4 py-2 bg-accent text-primary rounded-r hover:bg-gray-200 focus:outline-none">
+                                Subscribe
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
+                <p>&copy; 2024 Bling Bag. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/carousel.js}"></script>
+    
+    <!-- Additional scripts -->
+    <th:block th:replace="${scripts}" />
+</body>
+</html>
